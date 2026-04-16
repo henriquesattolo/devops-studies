@@ -1,0 +1,43 @@
+name: Hello DevOps - Meu Primeiro Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:   # permite rodar manualmente pelo GitHub
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1 - Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: 2 - Exibir info do ambiente
+        run: |
+          echo "🚀 Rodando no runner: $RUNNER_OS"
+          echo "📦 Branch: $GITHUB_REF_NAME"
+          echo "👤 Disparado por: $GITHUB_ACTOR"
+
+      - name: 3 - Verificar versões instaladas
+        run: |
+          echo "--- Git ---"
+          git --version
+          echo "--- Docker ---"
+          docker --version
+          echo "--- Python ---"
+          python3 --version
+
+      - name: 4 - Criar um arquivo de artefato
+        run: |
+          mkdir output
+          echo "Build gerado em: $(date)" > output/build-info.txt
+          echo "Commit: $GITHUB_SHA" >> output/build-info.txt
+
+      - name: 5 - Fazer upload do artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-info
+          path: output/
