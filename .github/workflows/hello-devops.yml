@@ -16,17 +16,14 @@ jobs:
 
       - name: 2 - Exibir info do ambiente
         run: |
-          echo "🚀 Rodando no runner: $RUNNER_OS"
-          echo "📦 Branch: $GITHUB_REF_NAME"
-          echo "👤 Disparado por: $GITHUB_ACTOR"
+          echo "Rodando no runner: $RUNNER_OS"
+          echo "Branch: $GITHUB_REF_NAME"
+          echo "Disparado por: $GITHUB_ACTOR"
 
       - name: 3 - Verificar versões instaladas
         run: |
-          echo "--- Git ---"
           git --version
-          echo "--- Docker ---"
           docker --version
-          echo "--- Python ---"
           python3 --version
 
       - name: 4 - Criar artefato
@@ -55,6 +52,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: 3 - Build da imagem Docker
+        run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/devops-studies:latest \
                        -t ${{ secrets.DOCKER_USERNAME }}/devops-studies:${{ github.sha }} .
 
