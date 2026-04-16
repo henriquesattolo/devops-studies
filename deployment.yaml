@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-studies
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-studies
+  template:
+    metadata:
+      labels:
+        app: devops-studies
+    spec:
+      containers:
+      - name: devops-studies
+        image: henriquesattolo/devops-studies:latest
+        ports:
+        - containerPort: 8080
